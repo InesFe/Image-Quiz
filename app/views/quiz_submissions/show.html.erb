@@ -1,0 +1,37 @@
+<% @quiz.questions.each do |question| %>
+  <div class="card mb-4">
+    <div class="card-body">
+      <h5 class="card-title">Question:</h5>
+      <p class="card-text"><%= question.content %></p>
+      
+      <% if question.image.attached? %>
+        <%= image_tag question.image, class: "img-fluid mb-3", style: "width: 40%; height: auto;" %>
+      <% end %>
+      
+      <% correct_answer_index = question.correct_answer %>
+      <% selected_answer_index = @quiz_submission.user_answers[question.id.to_s].to_i %>
+
+
+      <p>Debug Info: Question ID: <%= question.id %>, Correct Answer: <%= correct_answer_index %>, Selected Answer: <%= selected_answer_index %></p>
+      
+      <% (1..3).each do |answer_index| %>
+        <% answer_text = question.send("answer#{answer_index}") %>
+        <% answer_class = if answer_index == correct_answer_index
+                           "alert alert-success"
+                         elsif answer_index == selected_answer_index
+                           "alert alert-danger"
+                         else
+                           "alert alert-secondary"
+                         end %>
+        
+        <% if answer_text.present? %>
+          <div class="<%= answer_class %>">
+            <%= answer_text %>
+          </div>
+        <% end %>
+        <% end %>
+        
+    </div>
+  </div>
+<% end %>
+
