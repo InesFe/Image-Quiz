@@ -35,3 +35,8 @@
   </div>
 <% end %>
 
+<div>
+  <%= link_to "Edit this quiz", edit_quiz_path(@quiz) %> |
+  <%= link_to "Back to quizzes", quizzes_path %> |
+  <%= link_to "Destroy this quiz", @quiz, method: :delete, data: { confirm: "Are you sure you want to delete this quiz?" } %>
+</div>

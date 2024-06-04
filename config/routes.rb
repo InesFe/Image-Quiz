@@ -6,6 +6,7 @@ Rails.application.routes.draw do
   resources :quizzes do 
     resources :questions, only: [:new, :create, :index, :show] do
      resources :submissions, only: [:create, :show], controller: 'quiz_submissions'
+     post :submit_quiz
     end
   end
 
