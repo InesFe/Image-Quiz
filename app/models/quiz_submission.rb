@@ -5,6 +5,6 @@ class QuizSubmission < ApplicationRecord
   after_initialize :init
 
   def init
-    self.user_answers ||= {}
+    self.user_answers
   end
 end

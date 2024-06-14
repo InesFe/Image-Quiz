@@ -1,0 +1,41 @@
+<p style="color: green"><%= notice %></p>
+
+<h2>Your score is: <%= @score %></h2>
+<pre>
+  <%= debug @correct_answers %>
+  <%= debug @user_answers %>
+</pre>
+
+
+<% @quiz.questions.each_with_index do |question, index| %>
+  <div class="card mb-4">
+    <div class="card-body">
+      <h5 class="card-title">Question <%= index + 1 %></h5>
+      <p class="card-text"><%= question.content %></p>
+      
+      <% if question.image.attached? %>
+        <%= image_tag question.image, class: "img-fluid mb-3", style: "max-width: 40%; height: auto;" %>
+      <% end %>
+      
+      <% 1.upto(3) do |answer_index| %>
+        <% answer_class = if @user_answers[question.id] == answer_index
+                            @correct_answers[question.id] == answer_index ? 'text-success' : 'text-danger'
+                          elsif @correct_answers[question.id] == answer_index
+                            'text-success'
+                          else
+                            ''
+                          end %>
+        <div class="form-check">
+          <%= radio_button_tag "answers[#{question.id}]", answer_index, @user_answers[question.id] == answer_index, class: "form-check-input", disabled: true %>
+          <%= label_tag "answers_#{question.id}_#{answer_index}", question.send("answer#{answer_index}"), class: "form-check-label #{answer_class}" %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+<% end %>
+
+<div>
+  <%= link_to "Edit this quiz", edit_quiz_path(@quiz) %> |
+  <%= link_to "Back to quizzes", quizzes_path %> 
+  <%= button_to "Destroy this quiz", @quiz, method: :delete %>
+</div>
